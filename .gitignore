@@ -34,3 +34,7 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# docker stuff
+.docker
+.docker-compose.yml

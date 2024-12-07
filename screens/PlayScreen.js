@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
+  Animated,
   StyleSheet,
   Text,
   View,
@@ -9,6 +10,16 @@ import {
 } from "react-native";
 
 const PlayScreen = () => {
+  const slideAnim = useRef(new Animated.Value(-100)).current;
+
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
   const [grid, setGrid] = useState(Array(30).fill(""));
   const [currentRow, setCurrentRow] = useState(0);
   const [currentInput, setCurrentInput] = useState([]);
@@ -49,7 +60,7 @@ const PlayScreen = () => {
 
   const handleEnterPress = (key) => {
     console.log(`ENTER KEY PRESSED: ${key}`);
-    if (currentInput.length === 5 && currentRow < 6) {
+    if (currentInput.length === 5 && currentRow < 5) {
       console.log(`Entered Word: ${currentInput.join("")}`);
       setCurrentRow(currentRow + 1);
       setCurrentInput([]);

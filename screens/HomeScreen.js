@@ -13,34 +13,32 @@ const wordleImg = require("../assets/wordleLogo.png");
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const slideAnim = useRef(new Animated.Value(0)).current;
+
 
   const playButton = () => {
-    //just move to new page for now
-    navigation.navigate("PlayScreen");
+    Animated.timing(slideAnim, {
+      toValue: -500, 
+      duration: 500,
+      useNativeDriver: true,
+    }).start(() => {
+      navigation.navigate("PlayScreen");
+    });
   };
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, { transform: [{ translateX: slideAnim }] }]}>
       <View style={styles.header}>
-        <Image source={wordleImg} style={styles.wordleImg} />
+        <Image source={require("../assets/wordleLogo.png")} style={styles.wordleImg} />
         <Text style={styles.text_header}>Welcome to Wordle!</Text>
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.playButton} onPress={playButton}>
+          <TouchableOpacity style={styles.playButton} onPress={handlePlayPress}>
             <Text style={styles.buttonText}>Play Game!</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.signUpButton}>
-            <Text style={styles.buttonText}>Sign Up!</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Project made by Sean Hyde.</Text>
         </View>
       </View>
-    </View>
+    </Animated.View>
   );
 };
-
-export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -78,22 +76,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  signUpButton: {
-    width: 300,
-    height: 50,
-    borderRadius: 15,
-    backgroundColor: "#3a4f63",
-    justifyContent: "center",
-    alignItems: "center",
-  },
   buttonText: {
     color: "#fff",
     fontSize: 24,
   },
-  footer: {
-    top: 100,
-  },
-  footerText: {
-    color: "#B3B3b3",
-  },
 });
+
+export default HomeScreen;
